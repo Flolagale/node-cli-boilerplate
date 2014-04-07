@@ -12,18 +12,18 @@ var pkg = require('./package.json');
 
 program.version(pkg.version)
     .option('-p, --port <n>', 'The port to which the server should listen to. Default to 3000.', parseInt)
-    .option('-l, --log-file [file path]', "The log file path. Default to './.tmp/node-cli-boilerplate.log'.")
+    .option('-l, --log-file [file path]', "The log file path. Default to './.tmp/" + pkg.name + ".log'.")
     .option('--verbose', 'Set the logging level to verbose.');
 
 /* Hack the argv object so that commander thinks that this script is called
- * 'node-cli-boilerplate'. The help info will look nicer. */
-process.argv[1] = 'node-cli-boilerplate';
+ * 'pkg.name'. The help info will look nicer. */
+process.argv[1] = pkg.name;
 program.parse(process.argv);
 
-logger.info('node-cli-boilerplate v' + pkg.version);
+logger.info(pkg.name + ' v' + pkg.version);
 core.start({
     port: program.port || 3000,
-    logFile: program.logFile || './.tmp/node-cli-boilerplate.log',
+    logFile: program.logFile || './.tmp/' + pkg.name + '.log',
     verbose: program.verbose,
 }, function (err) {
     if (err) process.exit(1);
